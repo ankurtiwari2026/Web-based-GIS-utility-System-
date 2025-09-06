@@ -1,0 +1,12 @@
+.env
+node_modules/
+api/node_modules/
+ml/.venv/
+ml/__pycache__/
+*.pyc
+dist/
+coverage/
+pgdata/
+models/
+.DS_Store
+
