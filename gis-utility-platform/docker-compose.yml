@@ -100,6 +100,27 @@ services:
       retries: 5
     command: bash -lc "pip install -r requirements.txt && uvicorn main:app --host 0.0.0.0 --port 8000 --reload"
 
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    container_name: gis_frontend
+    environment:
+      VITE_API_URL: http://localhost:8080
+      VITE_ML_URL: http://localhost:8000
+    ports:
+      - "5173:3000"
+    volumes:
+      - ./frontend:/app
+    depends_on:
+      - api
+      - ml
+    healthcheck:
+      test: ["CMD-SHELL", "wget -qO- http://localhost:3000 || exit 1"]
+      interval: 15s
+      timeout: 5s
+      retries: 5
+
 volumes:
   db_data:
   redis_data:
